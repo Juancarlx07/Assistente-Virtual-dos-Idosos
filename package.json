@@ -10,9 +10,11 @@
     "start": "next start",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@types/node": "^22.10.6",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",

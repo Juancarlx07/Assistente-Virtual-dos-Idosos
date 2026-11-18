@@ -83,8 +83,34 @@ Authentication → Providers → Email (ou use o link de confirmação).
 npm run dev        # aplicação em http://localhost:3000
 npm run build      # build de produção
 npm test           # testes da lógica (Vitest)
+npm run test:e2e   # testes e2e de UI (Playwright)
 npm run typecheck  # checagem de tipos
 ```
+
+## Testes e2e (Playwright)
+
+A suíte está em `e2e/` e cobre, sem depender de backend, os fluxos de UI:
+navegação da home, formulários de login/cadastro, proteção de rota pelo
+middleware e o portal com token inválido. O servidor sobe automaticamente com
+valores de ambiente fictícios (essas telas não chamam o Supabase).
+
+```bash
+npx playwright install chromium   # baixa o navegador (só na 1ª vez)
+npm run test:e2e
+```
+
+### Jornada autenticada (opcional, com Supabase real)
+
+`e2e/autenticado.spec.ts` exercita o caminho completo (cadastro → consentimento
+no portal → geração de sugestões → gate de personalização). Ela fica **pulada**
+por padrão, pois precisa de um Supabase de verdade (o Playwright não intercepta
+as chamadas feitas no servidor Next). Para rodá-la:
+
+1. Suba um Supabase e aplique `supabase/migrations`.
+2. Em Authentication → Email, desative a confirmação de e-mail.
+3. Rode a app apontando para esse Supabase em `http://localhost:3100`
+   (ex.: `npm run build && npm run start -- -p 3100` com o `.env.local` real).
+4. `E2E_FULL=1 npx playwright test autenticado`
 
 ## Fluxo de uso
 

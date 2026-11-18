@@ -18,7 +18,14 @@ export default async function PortalPage({
   params: Promise<{ token: string }>;
 }) {
   const { token } = await params;
-  const dados = await obterDadosPortal(token);
+
+  let dados: Awaited<ReturnType<typeof obterDadosPortal>> = null;
+  try {
+    dados = await obterDadosPortal(token);
+  } catch (e) {
+    // Falha ao carregar (ex.: backend indisponível). Não derruba a página.
+    console.error('portal/obterDadosPortal', e);
+  }
 
   if (!dados) {
     return (
@@ -28,8 +35,8 @@ export default async function PortalPage({
         </header>
         <main className="container" style={{ maxWidth: 560 }}>
           <div className="aviso erro">
-            Este link não é válido (ou foi removido). Peça um novo a quem o
-            enviou.
+            Este link não é válido ou está indisponível no momento. Se você o
+            recebeu de alguém, peça um novo.
           </div>
         </main>
       </>
