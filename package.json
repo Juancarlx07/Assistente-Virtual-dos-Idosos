@@ -1,0 +1,16 @@
+{
+  "name": "gestos-de-carinho",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Base (MVP) de um produto que ajuda pessoas a manter gestos de carinho constantes, sem perder o toque pessoal.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4"
+  }
+}
