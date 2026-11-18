@@ -106,7 +106,7 @@ create index on sugestao (usuario_id, semana_ref);
 -- reforçada aqui: um gesto "pronto" ou "enviado" precisa de elemento pessoal.
 create table gesto (
   id               uuid primary key default gen_random_uuid(),
-  sugestao_id      uuid not null references sugestao (id) on delete cascade,
+  sugestao_id      uuid not null unique references sugestao (id) on delete cascade,
   elemento_pessoal text not null default '',
   data_planejada   date,
   data_envio       date,
@@ -114,7 +114,6 @@ create table gesto (
   constraint elemento_pessoal_obrigatorio
     check (status = 'planejado' or length(btrim(elemento_pessoal)) >= 3)
 );
-create index on gesto (sugestao_id);
 
 -- ───────────────────────── Lembretes ─────────────────────────
 create table lembrete (
@@ -123,9 +122,9 @@ create table lembrete (
   semana_ref   date not null,
   canal        canal_lembrete not null,
   status       status_lembrete not null default 'agendado',
-  sugestao_ids uuid[] not null default '{}'
+  sugestao_ids uuid[] not null default '{}',
+  unique (usuario_id, semana_ref)
 );
-create index on lembrete (usuario_id, semana_ref);
 
 -- ═════════════════════════ RLS ═════════════════════════
 -- Tudo bloqueado por padrão; o dono (auth.uid()) só acessa o que é seu.

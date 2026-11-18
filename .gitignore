@@ -4,6 +4,11 @@ coverage/
 .DS_Store
 *.log
 
+# Next.js
+.next/
+next-env.d.ts
+*.tsbuildinfo
+
 # Ambiente / segredos (nunca commitar chaves do Supabase)
 .env
 .env.*
